@@ -17,26 +17,6 @@ module ::Discoursecolor
     engine_name PLUGIN_NAME
     isolate_namespace Discoursecolor
   end
-
-  class DiscoursecolorController < ::ApplicationController
-    requires_plugin PLUGIN_NAME
-
-    def groups
-      groups = Group.all.map do |group|
-        {
-          id: group.id,
-          name: group.name,
-          user_count: group.users.count
-        }
-      end
-
-      render json: { groups: groups }
-    end
-  end
-end
-
-Discoursecolor::Engine.routes.draw do
-  get "/groups" => "discoursecolor#groups"
 end
 
 after_initialize do
@@ -81,5 +61,26 @@ after_initialize do
     group_colors = JSON.parse(SiteSetting.discoursecolor_group_colors)
     highest_group = self.highest_ranked_group
     group_colors[highest_group] || '#000000'
+  end
+
+  # API endpoint to get all groups
+  class DiscoursecolorController < ::Admin::AdminController
+    requires_plugin Discoursecolor::PLUGIN_NAME
+
+    def groups
+      groups = Group.all.map do |group|
+        {
+          id: group.id,
+          name: group.name,
+          user_count: group.users.count
+        }
+      end
+
+      render json: { groups: groups }
+    end
+  end
+
+  Discoursecolor::Engine.routes.draw do
+    get "/groups" => "discoursecolor#groups"
   end
 end
