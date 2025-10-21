@@ -114,29 +114,28 @@ function initializeDiscoursecolor(api) {
     });
   });
 
-  // Start observing when the app is ready
-  api.onApp(() => {
-    // Process existing elements
-    const existingElements = document.querySelectorAll('.chat-message, [data-user-card], .user-link, .avatar');
-    existingElements.forEach(el => processElement(el));
+  // Process existing elements immediately and start observing
+  const existingElements = document.querySelectorAll('.chat-message, [data-user-card], .user-link, .avatar');
+  existingElements.forEach(el => processElement(el));
 
-    // Start observing for new elements
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
+  // Start observing for new elements
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+
+  // Cleanup when the app is destroyed (if onDestroy exists)
+  if (api.onDestroy) {
+    api.onDestroy(() => {
+      observer.disconnect();
+      userCache.clear();
     });
-  });
-
-  // Cleanup when the app is destroyed
-  api.onDestroy(() => {
-    observer.disconnect();
-    userCache.clear();
-  });
+  }
 }
 
 export default {
   name: "discoursecolor",
   initialize() {
-    withPluginApi("1.6.0", initializeDiscoursecolor);
+    withPluginApi("0.8.7", initializeDiscoursecolor);
   }
 };
