@@ -1,0 +1,195 @@
+<div class="discoursecolor-admin">
+  <div class="admin-controls">
+    <nav>
+      <ul class="nav nav-pills">
+        <li>
+          <LinkTo @route="adminPlugins.index">
+            {{i18n "admin.plugins.title"}}
+          </LinkTo>
+        </li>
+        <li class="active">
+          <a>{{i18n "discoursecolor.title"}}</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="admin-container">
+    <div class="admin-content">
+      <div class="discoursecolor-settings">
+        <section class="setting-section">
+          <div class="setting-header">
+            <h2>{{i18n "discoursecolor.title"}}</h2>
+            <p class="setting-description">{{i18n "discoursecolor.description"}}</p>
+          </div>
+
+          <div class="setting-controls">
+            <div class="setting-control">
+              <label class="checkbox-label">
+                <Input @type="checkbox" @checked={{this.siteSettings.discoursecolor_enabled}} />
+                {{i18n "discoursecolor.enabled"}}
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <section class="setting-section">
+          <div class="setting-header">
+            <h3>{{i18n "discoursecolor.group_rankings"}}</h3>
+            <p class="setting-description">{{i18n "discoursecolor.group_rankings_help"}}</p>
+          </div>
+
+          <div class="setting-controls">
+            <div class="group-rankings-controls">
+              <div class="groups-list">
+                {{#each this.rankedGroups as |group index|}}
+                  <div class="group-item" data-group="{{group}}">
+                    <div class="group-handle">
+                      <span class="drag-handle">☰</span>
+                    </div>
+                    <div class="group-name">
+                      {{group}}
+                    </div>
+                    <div class="group-color-preview" style="background-color: {{get this.groupColors group}};"></div>
+                    <div class="group-actions">
+                      <button 
+                        type="button" 
+                        class="btn btn-icon move-up" 
+                        {{on "click" (fn this.moveGroupUp index)}}
+                        disabled={{eq index 0}}
+                        title="Move up"
+                      >
+                        ↑
+                      </button>
+                      <button 
+                        type="button" 
+                        class="btn btn-icon move-down" 
+                        {{on "click" (fn this.moveGroupDown index)}}
+                        disabled={{eq index (sub this.rankedGroups.length 1)}}
+                        title="Move down"
+                      >
+                        ↓
+                      </button>
+                      <button 
+                        type="button" 
+                        class="btn btn-danger btn-icon" 
+                        {{on "click" (fn this.removeGroup index)}}
+                        title="Remove group"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  </div>
+                {{/each}}
+              </div>
+
+              <div class="group-actions-bottom">
+                <button 
+                  type="button" 
+                  class="btn btn-default" 
+                  {{on "click" this.addGroup}}
+                >
+                  {{i18n "discoursecolor.add_group"}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="setting-section">
+          <div class="setting-header">
+            <h3>{{i18n "discoursecolor.group_colors"}}</h3>
+            <p class="setting-description">{{i18n "discoursecolor.group_colors_help"}}</p>
+          </div>
+
+          <div class="setting-controls">
+            <div class="color-settings">
+              {{#each this.rankedGroups as |group|}}
+                <div class="color-setting">
+                  <label for="color-{{group}}">{{group}}</label>
+                  <div class="color-input-group">
+                    <input
+                      id="color-{{group}}"
+                      type="color"
+                      value="{{get this.groupColors group}}"
+                      {{on "input" (fn this.updateGroupColor group)}}
+                      class="color-picker"
+                    />
+                    <input
+                      type="text"
+                      value="{{get this.groupColors group}}"
+                      {{on "input" (fn this.updateGroupColor group)}}
+                      class="color-hex"
+                      placeholder="#000000"
+                    />
+                  </div>
+                </div>
+              {{/each}}
+            </div>
+          </div>
+        </section>
+
+        <section class="setting-section">
+          <div class="setting-header">
+            <h3>{{i18n "discoursecolor.live_preview"}}</h3>
+          </div>
+
+          <div class="preview-area">
+            <div class="preview-examples">
+              <div class="preview-item">
+                <div class="preview-username" style="color: {{get this.groupColors "admin"}};">
+                  @admin_user
+                </div>
+                <div class="preview-label">Admin username</div>
+              </div>
+              <div class="preview-item">
+                <div class="preview-username" style="color: {{get this.groupColors "moderator"}};">
+                  @moderator_user
+                </div>
+                <div class="preview-label">Moderator username</div>
+              </div>
+              <div class="preview-item">
+                <div class="preview-username" style="color: {{get this.groupColors "trust_level_4"}};">
+                  @trust_level_4_user
+                </div>
+                <div class="preview-label">Trust Level 4 username</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="setting-section">
+          <div class="setting-controls">
+            {{#if this.saveMessage}}
+              <div class="save-message {{this.saveMessageType}}">
+                {{this.saveMessage}}
+              </div>
+            {{/if}}
+
+            <div class="action-buttons">
+              <button 
+                type="button" 
+                class="btn btn-default" 
+                {{on "click" this.resetToDefaults}}
+              >
+                {{i18n "discoursecolor.reset_to_defaults"}}
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-primary" 
+                {{on "click" this.saveChanges}}
+                disabled={{or this.isSaving (not this.hasChanges)}}
+              >
+                {{#if this.isSaving}}
+                  {{i18n "saving"}}
+                {{else}}
+                  {{i18n "discoursecolor.save_changes"}}
+                {{/if}}
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,345 @@
+// Discourse Color Plugin Styles
+
+.discoursecolor-admin {
+  .setting-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--secondary);
+    border-radius: 8px;
+    border: 1px solid var(--primary-low);
+
+    .setting-header {
+      margin-bottom: 1rem;
+
+      h2, h3 {
+        margin: 0 0 0.5rem 0;
+        color: var(--primary);
+      }
+
+      .setting-description {
+        margin: 0;
+        color: var(--primary-medium);
+        font-size: 0.9em;
+      }
+    }
+
+    .setting-controls {
+      .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .group-rankings-controls {
+    .groups-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .group-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      background: var(--primary-very-low);
+      border-radius: 4px;
+      border: 1px solid var(--primary-low);
+
+      .group-handle {
+        cursor: move;
+        color: var(--primary-medium);
+
+        .drag-handle {
+          font-size: 1.2em;
+        }
+      }
+
+      .group-name {
+        flex: 1;
+        font-weight: bold;
+        color: var(--primary);
+      }
+
+      .group-color-preview {
+        width: 20px;
+        height: 20px;
+        border-radius: 3px;
+        border: 1px solid var(--primary-low);
+      }
+
+      .group-actions {
+        display: flex;
+        gap: 0.25rem;
+
+        .btn-icon {
+          padding: 0.25rem 0.5rem;
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          border-radius: 3px;
+
+          &:hover:not(:disabled) {
+            background: var(--primary-low);
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+
+          &.move-up, &.move-down {
+            color: var(--primary);
+          }
+
+          &.btn-danger {
+            color: var(--danger);
+          }
+        }
+      }
+    }
+
+    .group-actions-bottom {
+      display: flex;
+      justify-content: flex-start;
+    }
+  }
+
+  .color-settings {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+
+    .color-setting {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      label {
+        font-weight: bold;
+        color: var(--primary);
+        margin-bottom: 0.25rem;
+      }
+
+      .color-input-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .color-picker {
+          width: 50px;
+          height: 40px;
+          border: 1px solid var(--primary-low);
+          border-radius: 4px;
+          cursor: pointer;
+        }
+
+        .color-hex {
+          flex: 1;
+          padding: 0.5rem;
+          border: 1px solid var(--primary-low);
+          border-radius: 4px;
+          background: var(--primary-very-low);
+          color: var(--primary);
+          font-family: monospace;
+
+          &:focus {
+            outline: none;
+            border-color: var(--tertiary);
+            box-shadow: 0 0 0 2px rgba(var(--tertiary-rgb), 0.25);
+          }
+        }
+      }
+    }
+  }
+
+  .preview-area {
+    .preview-examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+
+      .preview-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+
+        .preview-username {
+          font-size: 1.2em;
+          font-weight: bold;
+          padding: 0.5rem 1rem;
+          background: var(--primary-very-low);
+          border-radius: 4px;
+          transition: color 0.2s ease;
+        }
+
+        .preview-label {
+          font-size: 0.9em;
+          color: var(--primary-medium);
+        }
+      }
+    }
+  }
+
+  .save-message {
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-weight: bold;
+
+    &.success {
+      background: var(--success-low);
+      color: var(--success);
+      border: 1px solid var(--success-low);
+    }
+
+    &.error {
+      background: var(--danger-low);
+      color: var(--danger);
+      border: 1px solid var(--danger-low);
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+// Frontend styling for injected group colors
+.is-admin,
+.highest-group-admin {
+  color: var(--admin-color, #ff0000) !important;
+}
+
+.is-staff,
+.highest-group-staff {
+  color: var(--staff-color, #00ff00) !important;
+}
+
+.is-moderator,
+.highest-group-moderator {
+  color: var(--moderator-color, #0000ff) !important;
+}
+
+.is-trust-level-4,
+.highest-group-trust-level-4 {
+  color: var(--trust-level-4-color, #ffa500) !important;
+}
+
+.is-trust-level-3,
+.highest-group-trust-level-3 {
+  color: var(--trust-level-3-color, #800080) !important;
+}
+
+.is-trust-level-2,
+.highest-group-trust-level-2 {
+  color: var(--trust-level-2-color, #008080) !important;
+}
+
+.is-trust-level-1,
+.highest-group-trust-level-1 {
+  color: var(--trust-level-1-color, #808080) !important;
+}
+
+// Avatar styling with group borders
+.avatar.highest-group-admin,
+.avatar-wrapper.highest-group-admin .avatar {
+  border-color: var(--admin-color, #ff0000) !important;
+  box-shadow: 0 0 0 2px var(--admin-color, #ff0000) !important;
+}
+
+.avatar.highest-group-staff,
+.avatar-wrapper.highest-group-staff .avatar {
+  border-color: var(--staff-color, #00ff00) !important;
+  box-shadow: 0 0 0 2px var(--staff-color, #00ff00) !important;
+}
+
+.avatar.highest-group-moderator,
+.avatar-wrapper.highest-group-moderator .avatar {
+  border-color: var(--moderator-color, #0000ff) !important;
+  box-shadow: 0 0 0 2px var(--moderator-color, #0000ff) !important;
+}
+
+// Chat message styling
+.chat-message.highest-group-admin .chat-message-info__username {
+  color: var(--admin-color, #ff0000) !important;
+}
+
+.chat-message.highest-group-staff .chat-message-info__username {
+  color: var(--staff-color, #00ff00) !important;
+}
+
+.chat-message.highest-group-moderator .chat-message-info__username {
+  color: var(--moderator-color, #0000ff) !important;
+}
+
+// User card styling
+.user-card.highest-group-admin .user-card-username {
+  color: var(--admin-color, #ff0000) !important;
+}
+
+.user-card.highest-group-staff .user-card-username {
+  color: var(--staff-color, #00ff00) !important;
+}
+
+.user-card.highest-group-moderator .user-card-username {
+  color: var(--moderator-color, #0000ff) !important;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .discoursecolor-admin {
+    .color-settings {
+      grid-template-columns: 1fr;
+    }
+
+    .preview-examples {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+      align-items: stretch;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Dark mode compatibility
+[data-theme="dark"] {
+  .discoursecolor-admin {
+    .group-item {
+      background: var(--primary-50);
+    }
+
+    .color-hex {
+      background: var(--primary-100);
+    }
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .discoursecolor-admin {
+    .group-item {
+      border: 2px solid var(--primary);
+    }
+
+    .color-picker,
+    .color-hex {
+      border: 2px solid var(--primary);
+    }
+  }
+}
