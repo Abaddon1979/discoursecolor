@@ -22,14 +22,12 @@ after_initialize do
       group_names = object.groups.pluck(:name)
       return nil if group_names.blank?
       
-      rankings = SiteSetting.discoursecolor_group_rankings.presence || "admin,staff,moderator,trust_level_4,trust_level_3,trust_level_2,trust_level_1"
+      rankings = SiteSetting.discoursecolor_group_rankings.presence || "admins,staff,moderators,trust_level_4,trust_level_3,trust_level_2,trust_level_1"
       rankings = rankings.split(',')
       
-      # Normalize group names (plural to singular)
-      normalized_groups = group_names.map { |name| name.singularize }
-      
-      # Find the highest ranked group
-      highest_group = rankings.find { |rank| normalized_groups.include?(rank.singularize) }
+      # Find the highest ranked group without normalization
+      # Use the exact group names as they appear in Discourse
+      highest_group = rankings.find { |rank| group_names.include?(rank) }
       highest_group || group_names.first
     rescue => e
       Rails.logger.warn "Discoursecolor: Error calculating highest_ranked_group: #{e.message}"
@@ -39,7 +37,7 @@ after_initialize do
 
   add_to_serializer(:basic_user, :group_color) do
     begin
-      group_colors = JSON.parse(SiteSetting.discoursecolor_group_colors.presence || '{"admin":"#ff0000","staff":"#00ff00","moderator":"#0000ff","trust_level_4":"#ffa500","trust_level_3":"#800080","trust_level_2":"#008080","trust_level_1":"#808080"}')
+      group_colors = JSON.parse(SiteSetting.discoursecolor_group_colors.presence || '{"admins":"#ff0000","staff":"#00ff00","moderators":"#0000ff","trust_level_4":"#ffa500","trust_level_3":"#800080","trust_level_2":"#008080","trust_level_1":"#808080"}')
       highest_group = self.highest_ranked_group
       group_colors[highest_group] || '#000000'
     rescue => e
@@ -58,11 +56,12 @@ after_initialize do
       group_names = object.groups.pluck(:name)
       return nil if group_names.blank?
       
-      rankings = SiteSetting.discoursecolor_group_rankings.presence || "admin,staff,moderator,trust_level_4,trust_level_3,trust_level_2,trust_level_1"
+      rankings = SiteSetting.discoursecolor_group_rankings.presence || "admins,staff,moderators,trust_level_4,trust_level_3,trust_level_2,trust_level_1"
       rankings = rankings.split(',')
       
-      normalized_groups = group_names.map { |name| name.singularize }
-      highest_group = rankings.find { |rank| normalized_groups.include?(rank.singularize) }
+      # Find the highest ranked group without normalization
+      # Use the exact group names as they appear in Discourse
+      highest_group = rankings.find { |rank| group_names.include?(rank) }
       highest_group || group_names.first
     rescue => e
       Rails.logger.warn "Discoursecolor: Error calculating highest_ranked_group: #{e.message}"
@@ -72,7 +71,7 @@ after_initialize do
 
   add_to_serializer(:user, :group_color) do
     begin
-      group_colors = JSON.parse(SiteSetting.discoursecolor_group_colors.presence || '{"admin":"#ff0000","staff":"#00ff00","moderator":"#0000ff","trust_level_4":"#ffa500","trust_level_3":"#800080","trust_level_2":"#008080","trust_level_1":"#808080"}')
+      group_colors = JSON.parse(SiteSetting.discoursecolor_group_colors.presence || '{"admins":"#ff0000","staff":"#00ff00","moderators":"#0000ff","trust_level_4":"#ffa500","trust_level_3":"#800080","trust_level_2":"#008080","trust_level_1":"#808080"}')
       highest_group = self.highest_ranked_group
       group_colors[highest_group] || '#000000'
     rescue => e
@@ -88,7 +87,7 @@ after_initialize do
   module ::Discoursecolor
     class AdminController < ::Admin::AdminController
       def index
-        # This empty action allows the admin route to work
+        # This renders the admin template
       end
 
       def groups
