@@ -4,7 +4,7 @@ plugins:
     client: true
 
   discoursecolor_group_rankings:
-    default: "admin,staff,moderator,trust_level_4,trust_level_3,trust_level_2,trust_level_1"
+    default: "admin|staff|moderator|trust_level_4|trust_level_3|trust_level_2|trust_level_1"
     client: true
     type: list
   discoursecolor_group_colors:
