@@ -8,6 +8,9 @@ enabled_site_setting :discoursecolor_enabled
 
 register_asset 'stylesheets/user-groups-injector.scss'
 
+# Register admin plugin route
+add_admin_route 'discoursecolor.title', 'discoursecolor'
+
 after_initialize do
   # Add group information to user serializers
   add_to_serializer(:basic_user, :user_groups) do

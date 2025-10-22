@@ -47,25 +47,23 @@ function initializeDiscoursecolor(api) {
       const normalizedGroup = userData.highestGroup.replace(/\s+/g, '-').toLowerCase();
       element.classList.add(`highest-group-${normalizedGroup}`);
       
-      // For chat messages, apply color to the username element
+      // For chat messages, apply color to the username element only
       if (element.classList.contains('chat-message')) {
         const usernameEl = element.querySelector('.chat-message-info__username__name');
         if (usernameEl) {
           usernameEl.style.color = userData.color;
         }
-      } else {
-        // For other elements, apply color to the element itself
+      } 
+      // For user links in forums, apply color to the link
+      else if (element.hasAttribute('data-user-card') || element.classList.contains('user-link')) {
         element.style.color = userData.color;
       }
-      
-      // For avatars, apply border color
-      if (element.classList.contains('avatar') || element.querySelector('.avatar')) {
-        const avatar = element.classList.contains('avatar') ? element : element.querySelector('.avatar');
-        if (avatar) {
-          avatar.style.borderColor = userData.color;
-          avatar.style.boxShadow = `0 0 0 2px ${userData.color}`;
-        }
+      // For avatars, apply border color only
+      else if (element.classList.contains('avatar')) {
+        element.style.borderColor = userData.color;
+        element.style.boxShadow = `0 0 0 2px ${userData.color}`;
       }
+      // Don't apply color to any other elements
     }
   }
 
