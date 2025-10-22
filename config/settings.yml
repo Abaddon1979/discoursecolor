@@ -6,7 +6,7 @@ plugins:
   discoursecolor_group_rankings:
     default: "admin,staff,moderator,trust_level_4,trust_level_3,trust_level_2,trust_level_1"
     client: true
-
+    tyype: list
   discoursecolor_group_colors:
     default: '{"admin":"#ff0000","staff":"#00ff00","moderator":"#0000ff","trust_level_4":"#ffa500","trust_level_3":"#800080","trust_level_2":"#008080","trust_level_1":"#808080"}'
     client: true
