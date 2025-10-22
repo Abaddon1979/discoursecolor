@@ -9,7 +9,7 @@ enabled_site_setting :discoursecolor_enabled
 register_asset 'stylesheets/user-groups-injector.scss'
 
 # Register locale files
-register_locale("en", "config/locales/client.en.yml")
+register_locale("en", path: "config/locales/client.en.yml")
 
 # Register admin plugin route
 add_admin_route 'discoursecolor.title', 'discoursecolor'
