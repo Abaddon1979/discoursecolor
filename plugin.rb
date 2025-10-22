@@ -84,6 +84,10 @@ after_initialize do
   # Simple API endpoint using standard Discourse routing
   module ::Discoursecolor
     class AdminController < ::Admin::AdminController
+      def index
+        # This empty action allows the admin route to work
+      end
+
       def groups
         begin
           groups = Group.all.map do |group|
@@ -103,8 +107,9 @@ after_initialize do
     end
   end
 
-  # Add route without using an engine
+  # Add routes without using an engine
   Discourse::Application.routes.append do
+    get "/admin/plugins/discoursecolor" => "discoursecolor/admin#index"
     get "/admin/plugins/discoursecolor/groups" => "discoursecolor/admin#groups"
   end
 end

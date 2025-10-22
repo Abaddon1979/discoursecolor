@@ -47,8 +47,16 @@ function initializeDiscoursecolor(api) {
       const normalizedGroup = userData.highestGroup.replace(/\s+/g, '-').toLowerCase();
       element.classList.add(`highest-group-${normalizedGroup}`);
       
-      // Apply color to text
-      element.style.color = userData.color;
+      // For chat messages, apply color to the username element
+      if (element.classList.contains('chat-message')) {
+        const usernameEl = element.querySelector('.chat-message-info__username__name');
+        if (usernameEl) {
+          usernameEl.style.color = userData.color;
+        }
+      } else {
+        // For other elements, apply color to the element itself
+        element.style.color = userData.color;
+      }
       
       // For avatars, apply border color
       if (element.classList.contains('avatar') || element.querySelector('.avatar')) {
@@ -67,9 +75,9 @@ function initializeDiscoursecolor(api) {
 
     // Different ways to extract username based on element type
     if (element.classList.contains('chat-message')) {
-      const usernameEl = element.querySelector('.chat-message-info__username');
+      const usernameEl = element.querySelector('.chat-message-info__username__name');
       if (usernameEl) {
-        username = usernameEl.textContent.trim().replace('@', '');
+        username = usernameEl.textContent.trim();
       }
     } else if (element.hasAttribute('data-user-card')) {
       username = element.getAttribute('data-user-card');
